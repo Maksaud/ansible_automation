@@ -1,4 +1,4 @@
 .vagrant
 *.log
 
-vars/.infor.yml
+vars/info.yml
