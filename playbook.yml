@@ -75,3 +75,23 @@
     - name: Display the routetable public output
       debug:
         var: rt_ansibleVPC_publicsubnet
+    
+    - name: Create a security group
+      ec2_group:
+        aws_access_key: "{{ aws_id }}"
+        aws_secret_key: "{{ aws_key }}"
+        region: "{{ aws_region }}"
+        name: "Test Security Group"
+        description: "Test Security Group"
+        vpc_id: "{{ ansibleVPC.vpc.id }}"
+        tags:
+          name: public security group
+        rules:
+          - proto: "tcp"
+            ports: "22"
+            cidr_ip: 0.0.0.0/0
+      register: my_vpc_sg
+    
+    - name: Display the my_vpc_sg output
+      debug:
+        var: my_vpc_sg
