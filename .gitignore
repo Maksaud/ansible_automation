@@ -1,0 +1,4 @@
+.vagrant
+*.log
+
+vars/.infor.yml
