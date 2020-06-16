@@ -39,3 +39,39 @@
     - name: Display the public_subnet output
       debug:
         var: public_subnet
+    
+
+    - name: Create an internet gateway
+      ec2_vpc_igw:
+        aws_access_key: "{{ aws_id }}"
+        aws_secret_key: "{{ aws_key }}"
+        region: "{{ aws_region }}"
+        state: present
+        vpc_id: "{{ ansibleVPC.vpc.id }}"
+        tags:
+          Name: ansibleVPC_IGW
+      register: ansibleVPC_IGW
+
+    - name: Display the ansibleVPC_IGW
+      debug:
+        var: ansibleVPC_IGW
+
+    - name: Create a route table
+      ec2_vpc_route_table:
+        aws_access_key: "{{ aws_id }}"
+        aws_secret_key: "{{ aws_key }}"
+        region: "{{ aws_region }}"
+        state: present
+        vpc_id: "{{ ansibleVPC.vpc.id }}"
+        tags:
+          Name: rt_ansibleVPC_publicsubnet
+        subnets:
+          - "{{ public_subnet.subnet.id }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ ansibleVPC_IGW.gateway_id }}"
+      register: rt_ansibleVPC_publicsubnet
+
+    - name: Display the routetable public output
+      debug:
+        var: rt_ansibleVPC_publicsubnet
