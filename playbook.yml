@@ -139,3 +139,21 @@
         instance_tags:
           Name: new_demo_template
       register: ec2info
+
+
+    ## AMI
+    - name: Display the latest_ami output
+      debug:
+        var: latest_ami
+
+    - name: create a custom AMI
+      ec2_ami:
+        aws_access_key: "{{ aws_id }}"
+        aws_secret_key: "{{ aws_key }}"
+        region: "{{ aws_region }}"
+        instance_id:  "{{ ec2info.instance_ids[0] }}"
+        wait: yes
+        name: "maksaud-ami"
+        tags:
+          Name: "maksaud-ami"
+          Service: TestService
