@@ -4,6 +4,18 @@ In this repo, the host will be localhost because most of the EC2 cloud modules r
 
 It will have a vars/info.yml file for the variables that set credentials needed to access EC2
 
+## Required variables
+
+You will need an info.yml file in a folder vars which will hold the variables
+
+```YAML
+aws_id: <aws access key>
+aws_key: <aws secret key>
+aws_region: <youre region>
+ssh_keyname: <your ssh keyname>
+remote_user: <hostname>
+```
+
 ## VPC
 
 - Load the `aws_id`, `aws_key` and `aws_region` from vars/info.yml
