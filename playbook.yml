@@ -95,3 +95,28 @@
     - name: Display the my_vpc_sg output
       debug:
         var: my_vpc_sg
+    
+    # Deployment
+
+    - name: Find Red Hat AMIs
+      ec2_ami_info:
+        aws_access_key: "{{ aws_id }}"
+        aws_secret_key: "{{ aws_key }}"
+        region: "{{ aws_region }}"
+        owners: 309956199498
+        filters:
+          architecture: x86_64
+          name: RHEL-8*HVM-*
+      register: amis
+
+    - name: display the output
+      debug:
+        var: amis
+    
+    - name: Store latest version
+      set_fact:
+        latest_ami: "{{ amis.images | sort(attribute='creation_date') | last }}"
+
+    - name: Display the latest_ami output
+      debug:
+        var: latest_ami

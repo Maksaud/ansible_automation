@@ -41,3 +41,13 @@ the paramaters will be:
 - `name` - the name of the security group
 - `region` - the region of the group
 - `rules` - that define firewall inbound roules to enforce.
+
+# Procisioning an EC2 instance
+
+## Find and existing AMI
+
+- Find an AMI that can build an amazon EC2
+- IDS of an AMI can vary from region to region
+- Use the `ec2_ami_info` module to find the AMI
+- `filters` dictionary filters the list of AMIs returned by the module.
+- You can store the value of the AMI id as a variable
