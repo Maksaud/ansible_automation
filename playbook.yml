@@ -120,3 +120,22 @@
     - name: Display the latest_ami output
       debug:
         var: latest_ami
+
+
+    - name: Basic EC2 instance provisioning
+      ec2:
+        aws_access_key: "{{ aws_id }}"
+        aws_secret_key: "{{ aws_key }}"
+        region: "{{ aws_region }}"
+        image: "{{ latest_ami.image_id }}"
+        instance_type: t2.micro
+        key_name: "{{ ssh_keyname }}"
+        count: 2
+        state: present
+        group_id: "{{ my_vpc_sg.group_id }}"
+        wait: yes
+        vpc_subnet_id: "{{ public_subnet.subnet.id }}"
+        assign_public_ip: yes
+        instance_tags:
+          Name: new_demo_template
+      register: ec2info
